@@ -1,0 +1,35 @@
+#footerRoot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0 74px;
+  .link{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    .icon{
+      width: 40px;
+      height: 40px;
+    }
+    .linkTxt{
+      margin-top: 10px;
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #999999;
+      line-height: 20px;
+    }
+    &:not(:first-child){
+      margin-left: 55px;
+    }
+  }
+}
+
+@media (max-width:760px){
+  #footerRoot{
+    .link > .icon{width: 20px; height: 20px;}
+    .link > .linkTxt {margin-top: 3px;font-size: 12px;}
+  }
+}

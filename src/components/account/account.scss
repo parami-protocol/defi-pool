@@ -1,0 +1,46 @@
+.account-root{
+  .account-container{
+    flex: 1;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    background-color: transparent;
+    color: #ffffff;
+    //justifyContent: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    margin-left: 0;
+    //z-index: 100;
+    //transition: 'background-color 0.2s linear',
+  }
+  .account-middle-txt{
+    text-align: center;
+    margin-top: 140px;
+    font-size: 46px;
+    //line-height: 40px;
+    &:nth-child(2){
+      font-size: 38px;
+      margin-top: 10px;
+    }
+  }
+  .open-btn{
+    width: 14vw;
+    margin-top: 20px;
+    color: #ffffff;
+    background-color: #F5B812;
+    &:hover{
+      background-color: #F5B812;
+    }
+  }
+}
+@media (max-width:760px){
+  .account-root{
+    .account-container{
+      margin-left: 0;
+    }
+    .open-btn{
+      width: 32vw;
+    }
+  }
+}
