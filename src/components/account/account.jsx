@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {withStyles} from '@material-ui/core/styles';
 import {
-    Card,
+    // Card,
     Typography,
     Button,
 } from '@material-ui/core';
@@ -10,20 +10,20 @@ import {colors} from '../../theme'
 import './account.scss'
 
 import UnlockModal from '../unlock/unlockModal.jsx'
-import RefreshIcon from '@material-ui/icons/Refresh';
+// import RefreshIcon from '@material-ui/icons/Refresh';
 
 import {
     ERROR,
     CONNECTION_CONNECTED,
     CONNECTION_DISCONNECTED,
-    CONFIGURE,
+    // CONFIGURE,
     CONFIGURE_RETURNED
 } from '../../constants'
 
 import Store from "../../stores";
 
 const emitter = Store.emitter
-const dispatcher = Store.dispatcher
+// const dispatcher = Store.dispatcher
 const store = Store.store
 
 const styles = theme => ({
@@ -145,7 +145,7 @@ class Account extends Component {
     render() {
         const {classes} = this.props;
         const {
-            account,
+            // account,
             modalOpen,
         } = this.state
 
@@ -158,7 +158,7 @@ class Account extends Component {
     };
 
     renderNotConnected = () => {
-        const {classes} = this.props
+        // const {classes} = this.props
         const {loading} = this.state
 
         return (

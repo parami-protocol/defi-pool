@@ -7,7 +7,7 @@ import {
   Card,
   TextField
 } from '@material-ui/core';
-import { withNamespaces } from 'react-i18next';
+// import { withNamespaces } from 'react-i18next';
 
 import Loader from '../loader'
 import Snackbar from '../snackbar'

@@ -11,15 +11,15 @@ import {
     AccordionSummary,
     InputAdornment
 } from '@material-ui/core';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+// import ToggleButton from '@material-ui/lab/ToggleButton';
+// import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+// import Select from '@material-ui/core/Select';
+// import MenuItem from '@material-ui/core/MenuItem';
 import { withTranslation } from 'react-i18next';
 
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
+// import CheckIcon from '@material-ui/icons/Check';
+// import ClearIcon from '@material-ui/icons/Clear';
 
 import Loader from '../loader'
 import Snackbar from '../snackbar'
@@ -31,7 +31,7 @@ import "./liquidity.scss"
 import {
     GET_LIQUIDITY_BALANCES,
     ERROR,
-    CONFIGURE_RETURNED,
+    // CONFIGURE_RETURNED,
     STAKE,
     STAKE_RETURNED,
     WITHDRAW,
@@ -40,13 +40,17 @@ import {
     GET_REWARDS_RETURNED,
     EXIT,
     EXIT_RETURNED,
-    GET_YCRV_REQUIREMENTS,
+    // GET_YCRV_REQUIREMENTS,
     GET_YCRV_REQUIREMENTS_RETURNED,
-    GET_GOVERNANCE_REQUIREMENTS,
+    // GET_GOVERNANCE_REQUIREMENTS,
     GET_GOVERNANCE_REQUIREMENTS_RETURNED,
-    GET_BALANCES_RETURNED, GET_BALANCES, GETROI, CONFIGURE,GETUNIKANIROI
+    GET_BALANCES_RETURNED,
+    // GET_BALANCES,
+    GETROI,
+    // CONFIGURE,
+    GETUNIKANIROI
 } from '../../constants'
-import FormControl from "../header";
+// import FormControl from "../header";
 
 const styles = theme => ({
     root: {
@@ -57,7 +61,7 @@ const styles = theme => ({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '40px'
+        marginTop: '120px'
     },
     intro: {
         width: '100%',

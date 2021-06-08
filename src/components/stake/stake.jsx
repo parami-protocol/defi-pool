@@ -1,20 +1,25 @@
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {withStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import SearchIcon from '@material-ui/icons/Search';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import Progress from '../progress/progress'
 import {
     Typography,
     Button,
-    Card,
+    // Card,
     TextField,
-    InputAdornment
+    InputAdornment,
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 } from '@material-ui/core';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+// import Select from '@material-ui/core/Select';
+// import MenuItem from '@material-ui/core/MenuItem';
 
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
+// import CheckIcon from '@material-ui/icons/Check';
+// import ClearIcon from '@material-ui/icons/Clear';
 
-import Loader from '../loader'
+// import Loader from '../loader'
 import Snackbar from '../snackbar'
 
 import Store from "../../stores";
@@ -27,7 +32,7 @@ import { withTranslation } from 'react-i18next';
 
 import {
     ERROR,
-    CONFIGURE_RETURNED,
+    // CONFIGURE_RETURNED,
     STAKE,
     STAKE_RETURNED,
     WITHDRAW,
@@ -42,18 +47,19 @@ import {
     GET_GOVERNANCE_REQUIREMENTS_RETURNED,
     GET_BALANCES_RETURNED, GET_BALANCES, GETROI, GETDAIROI, GETKANIROI
 } from '../../constants'
-import FormControl from "../header";
+// import FormControl from "../header";
 
 const styles = theme => ({
     root: {
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        maxWidth: '900px',
+        // maxWidth: '900px',
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '40px'
+        marginTop: '80px',
+        background: 'linear-gradient(60deg, #FFDED8 0%, #E2F7F8 100%)'
     },
     intro: {
         width: '100%',
@@ -403,21 +409,117 @@ class Stake extends Component {
         if (!pool) {
             return null
         }
+        const useStyles = makeStyles({
+            table: {
+                minWidth: 650,
+            },
+        });
+        
+        function createData(name, calories, fat, carbs, protein, type) {
+            return { name, calories, fat, carbs, protein, type };
+        }
+        
+        const rows = [
+            createData('USDT', '4.68k', '4.67k', '0.84', '101.32%', 'Deposit'),
+            createData('USDC', '123.85k', '123.85k', '1', '100.34%', 'Deposit'),
+            createData('ETH', '917.13k', '868.52k', '0.895', '89.5%', 'Deposit')
+        ];
+        this.formValue = ''
 
         return (
 
             <div className={classes.root} id="stakeRoot">
-                <Typography variant={'h5'} className={classes.disaclaimer + ' ea_header_tit'}>{t('Stake.RiskWarn')}</Typography>
+                <section className="stake-start-top">
+                    <p className="stake-start-top__title">AD3</p>
+                    <p className="stake-start-top__subtitle">parami-finance</p>
+                </section>
+                <section className="stake-start-block">
+                    <ul className="stake-start-block__ul">
+                        <li className="stake-start-block__li">
+                            <p className="stake-start-block__title">Total supply & borrow</p>
+                            <p className="stake-start-block__subtitle">$39,334,340.87</p>
+                        </li>
+                        <li className="stake-start-block__li">
+                            <p className="stake-start-block__title">Total supply & borrow</p>
+                            <p className="stake-start-block__subtitle">$39,334,340.87</p>
+                        </li>
+                        <li className="stake-start-block__li">
+                            <p className="stake-start-block__title">Total supply & borrow</p>
+                            <p className="stake-start-block__subtitle">$39,334,340.87</p>
+                        </li>
+                        <li className="stake-start-block__li">
+                            <p className="stake-start-block__title">Total supply & borrow</p>
+                            <p className="stake-start-block__subtitle">$39,334,340.87</p>
+                        </li>
+                    </ul>
+                </section>
+                <section className="stake-start-table">
+                    <div className="stake-start-table-top">
+                        <span className="stake-start-table__title">Overview</span>
+                        <form className={classes.root, 'stake-start-table__form'} noValidate autoComplete="off">
+                            <div className="stake-start-table__search">
+                                <SearchIcon />
+                                <input className="stake-start-table__input" type="text" placeholder="Search" value={this.formValue} />
+                            </div>
+                            <div className="stake-start-table__button">
+                                <Button
+                                    className='stake-start-table__btn'
+                                    onClick={this.unlockClicked}
+                                    disabled={loading}
+                                >
+                                    <Typography>Exchange AD3</Typography>
+                                </Button>
+                            </div>
+                        </form>
+                    </div>
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Assets</TableCell>
+                                    <TableCell>Total deposit</TableCell>
+                                    <TableCell>Total loan</TableCell>
+                                    <TableCell>Utillzation rate</TableCell>
+                                    <TableCell>APY</TableCell>
+                                    <TableCell align="right">Operate</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {rows.map((row) => (
+                                <TableRow key={row.name}>
+                                    <TableCell component="th" scope="row">
+                                        {row.name}
+                                    </TableCell>
+                                    <TableCell>{row.calories}</TableCell>
+                                    <TableCell>{row.fat}</TableCell>
+                                    <TableCell className="table-progress">
+                                        <div className="table-progress-content">
+                                            <Progress num={row.carbs}></Progress><span>{row.carbs * 100}%</span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div className="table-progress-content table-apy-content">
+                                            <span className="table-apy">{row.protein}</span>
+                                            <ErrorOutlineIcon />
+                                        </div>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <Button
+                                            className='stake-table-btn'
+                                            onClick={this.unlockClicked}
+                                            disabled={loading}
+                                        >
+                                            Deposit
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </section>
+                {/* <Typography variant={'h5'} className={classes.disaclaimer + ' ea_header_tit'}>{t('Stake.RiskWarn')}</Typography>
                 <div className={classes.intro}>
-                    {/*<Button*/}
-                    {/*className={ classes.stakeButton }*/}
-                    {/*variant="outlined"*/}
-                    {/*color="secondary"*/}
-                    {/*disabled={ loading }*/}
-                    {/*onClick={ () => {  this.props.history.push('/staking') } }*/}
-                    {/*>*/}
-                    {/*<Typography variant={ 'h4'}>Back 返回</Typography>*/}
-                    {/*</Button>*/}
                     <Card className='addressContainer' onClick={this.overlayClicked}>
                         <Typography variant={'h3'} className={classes.walletTitle} noWrap>{t('Stake.Wallet')}</Typography>
                         <Typography variant={'h4'} className={classes.walletAddress} noWrap>{address}</Typography>
@@ -492,7 +594,7 @@ class Stake extends Component {
                 {value === 'exit' && this.renderExit()}
 
                 {snackbarMessage && this.renderSnackbar()}
-                {loading && <Loader/>}
+                {loading && <Loader/>} */}
             </div>
         )
     }

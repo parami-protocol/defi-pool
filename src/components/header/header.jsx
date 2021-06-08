@@ -13,7 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {Link, withRouter} from "react-router-dom";
 import {colors} from '../../theme'
-import paramiLogo from '../../assets/iconic_gradientbg.png';
+import paramiLogo from '../../assets/main_0 margin.png';
 import twitter from '../../assets/twitter.png';
 import telegram from '../../assets/telegram.png';
 import wechat from '../../assets/wechat.png';
@@ -212,10 +212,12 @@ function Header(props)  {
             i18n.changeLanguage('en_US')
         }
     };
+    const pathName = props.location.pathname === '/stake' || props.location.pathname === '/liquidity'
+    console.log(pathName, 'pathName')
 
     return (
         <div className={classes.root} id="headerRoot">
-            <div className="container">
+            <div className={pathName ? 'headerBackground container' :'container'}>
                 <div className="left">
                     <div className="itemList">
                         <div className="item">
@@ -224,7 +226,7 @@ function Header(props)  {
                                     <div className="logo-image">
                                         <img src={paramiLogo} alt=""/>
                                     </div>
-                                    <Typography className="logo-txt">AD3</Typography>
+                                    {/* <Typography className="logo-txt">AD3</Typography> */}
                                 </div>
                             </Link>
                         </div>

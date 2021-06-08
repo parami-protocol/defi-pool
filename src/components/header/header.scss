@@ -1,18 +1,23 @@
 #headerRoot{
+  z-index: 999;
   max-width: 1200px;
   .container{
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
-    flex:2;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
+    padding: 0 120px;
+    height: 80px;
     .left,.right{
-      flex: 1;
-      margin-left: 30px;
-      margin-top: 12px;
+      // flex: 1;
+      // margin-left: 30px;
+      // margin-top: 12px;
     }
     .right{
-      flex: 1;
+      // flex: 1;
       margin-right: 20px;
       .itemList{
         justify-content: space-around;
@@ -29,7 +34,7 @@
       cursor: pointer;
       color: #ffffff;
       &:not(:first-child){
-        margin-left: 6px;
+        margin-left: 40px;
       }
       .link{
         text-decoration: none;
@@ -39,8 +44,9 @@
           align-items: center;
           padding-bottom: 12px;
           .logo-image{
-            width: 53px;
-            height: 53px;
+            width: 133px;
+            margin-top: 14px;
+            // height: 53px;
             //border: 1px solid red;
           }
           .logo-txt{
@@ -52,11 +58,12 @@
             line-height: 53px;
           }
           img{
-            width: 53px;
+            width: 100%;
           }
         }
       }
       .select-container{
+        height: 24px;
         color: #999999;
       }
     }
@@ -69,14 +76,14 @@
         text-decoration: none;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
-        line-height: 25px;
+        line-height: 24px;
         color: #999999;
       }
       .pool-txt-btn-active{
         padding-bottom: 12px;
-        border-radius: 3px;
-        border-bottom: 3px solid #F2B62A;
-        color: #fff;
+        // border-radius: 3px;
+        border-bottom: 3px solid #FE4121;
+        color: #FE4121;
       }
     }
   }
@@ -84,7 +91,11 @@
 
 @media (max-width:760px){
   #headerRoot{
+    z-index: 999;
     .container{
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
       overflow: hidden;
       justify-content: flex-start;
@@ -153,4 +164,7 @@
     //  }
     //}
   }
+}
+.headerBackground {
+  background: rgba(255, 255, 255, 0.9)
 }

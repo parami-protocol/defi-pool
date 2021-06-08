@@ -1,4 +1,6 @@
-import React, {Component, useCallback, useEffect, useState} from 'react';
+import React, {Component
+    // useCallback, useEffect, useState
+} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {
@@ -6,7 +8,7 @@ import {
     Route,
     HashRouter
 } from "react-router-dom";
-import IpfsRouter from 'ipfs-react-router'
+// import IpfsRouter from 'ipfs-react-router'
 
 import './i18n';
 import interestTheme from './theme';
@@ -18,11 +20,11 @@ import RewardsPools from './components/rewardPools';
 import Header from './components/header';
 import Footer from './components/footer';
 import Liquidity from './components/liquidity';
-import Propose from './components/propose';
-import Claim from './components/claim';
-import Vote from './components/vote';
-import VersionToggle from './components/versionToggle';
-import Lock from './components/lock';
+// import Propose from './components/propose';
+// import Claim from './components/claim';
+// import Vote from './components/vote';
+// import VersionToggle from './components/versionToggle';
+// import Lock from './components/lock';
 
 import {
     CONNECTION_CONNECTED,
@@ -36,10 +38,10 @@ import {
 import {injected} from "./stores/connectors";
 
 import Store from "./stores";
-import bgImage from "./assets/bg-pc.jpg";
-import bgMobile from "./assets/bg-mobile.jpg";
+// import bgImage from "./assets/bg-pc.jpg";
+// import bgMobile from "./assets/bg-mobile.jpg";
 import './assets/index.scss';
-import Liquality from "./components/liquidity/liquidity";
+// import Liquality from "./components/liquidity/liquidity";
 
 const emitter = Store.emitter
 const dispatcher = Store.dispatcher
@@ -130,8 +132,8 @@ class App extends Component {
             backgroundSize: '100% 100%',
             backgroundRepeat: 'no-repeat'
         }
-
-        const {headerValue, account} = this.state
+        // headerValue, 
+        const {account} = this.state
 
         return (
             <MuiThemeProvider theme={createMuiTheme(interestTheme)}>

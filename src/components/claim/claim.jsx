@@ -8,7 +8,7 @@ import {
   TextField,
   InputAdornment
 } from '@material-ui/core';
-import { withNamespaces } from 'react-i18next';
+// import { withNamespaces } from 'react-i18next';
 
 import Loader from '../loader'
 import Snackbar from '../snackbar'
@@ -22,7 +22,7 @@ import {
   CONFIGURE_RETURNED,
   GET_CLAIMABLE_ASSET,
   GET_CLAIMABLE_ASSET_RETURNED,
-  GET_CLAIMABLE,
+  // GET_CLAIMABLE,
   GET_CLAIMABLE_RETURNED,
   CLAIM,
   CLAIM_RETURNED
@@ -260,15 +260,15 @@ class Claim extends Component {
   render() {
     const { classes } = this.props;
     const {
-      value,
+      // value,
       account,
       loading,
       modalOpen,
       snackbarMessage,
-      title,
-      titleError,
-      description,
-      descriptionError,
+      // title,
+      // titleError,
+      // description,
+      // descriptionError,
       asset
     } = this.state
 

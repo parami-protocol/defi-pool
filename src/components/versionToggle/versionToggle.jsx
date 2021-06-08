@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
-import { colors } from "../../theme";
+// import { colors } from "../../theme";
 //import { withNamespaces } from 'react-i18next';
 
 import {
@@ -62,7 +62,7 @@ class VersionToggle extends Component {
   }
 
   handleTabChange = (event, newValue) => {
-    const { value } = this.state
+    // const { value } = this.state
     if(newValue !== null) {
       this.setState({ value : newValue })
       store.setStore({ governanceContractVersion: newValue })

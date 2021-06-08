@@ -3,18 +3,22 @@ import {withRouter} from "react-router-dom";
 import {withStyles} from '@material-ui/core/styles';
 import {
     Card,
-    Button,
+    // Button,
     Typography,
 } from '@material-ui/core';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+// import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import {colors} from '../../theme'
 import Store from "../../stores";
 import './home.scss'
-import HowToVoteIcon from '@material-ui/icons/HowToVote';
-import DetailsIcon from '@material-ui/icons/Details';
-import LockIcon from '@material-ui/icons/Lock';
-import {CONFIGURE_RETURNED, GET_BALANCES, GET_BALANCES_RETURNED, GOVERNANCE_CONTRACT_CHANGED} from "../../constants";
+// import HowToVoteIcon from '@material-ui/icons/HowToVote';
+// import DetailsIcon from '@material-ui/icons/Details';
+// import LockIcon from '@material-ui/icons/Lock';
+import {
+    // CONFIGURE_RETURNED,
+    GET_BALANCES, GET_BALANCES_RETURNED,
+    // GOVERNANCE_CONTRACT_CHANGED
+} from "../../constants";
 
 const styles = theme => ({
     root: {
@@ -159,9 +163,9 @@ class Home extends Component {
     }
 
     render() {
-        const {classes, t, location} = this.props;
-        const rewardPools = store.getStore('rewardPools')
-        const rewardPool = rewardPools.filter((items) => items.id === 'GovernanceV2 defi')[0]
+        // const {classes, t, location} = this.props;
+        // const rewardPools = store.getStore('rewardPools')
+        // const rewardPool = rewardPools.filter((items) => items.id === 'GovernanceV2 defi')[0]
 
         return (
             <div className='home-root'>
