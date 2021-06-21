@@ -290,10 +290,10 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell>{row.calories}</TableCell>
-        <TableCell>{row.fat}</TableCell>
-        <TableCell>{row.carbs}</TableCell>
-        <TableCell>{row.protein}</TableCell>
+        <TableCell>{row.earned}</TableCell>
+        <TableCell>{row.balance}</TableCell>
+        <TableCell>{row.staked}</TableCell>
+        <TableCell>{row.apy}</TableCell>
         <TableCell align="right">
           <Button className="stake-table-btn" onClick={addLiquidity}>
             Add
@@ -316,13 +316,13 @@ function Row(props) {
             <Box margin={1}>
               <div className="box-mod">
                 <div className="hd">
-                  <div>0.000 AD3</div>
+                  <div>{row.earned} AD3</div>
                   <Button className="stake-table-btn">Claim</Button>
                 </div>
 
                 <div className="bd">
                   <div className="hd">
-                    <div>Balance 0.000</div>
+                    <div>Balance {row.balance}</div>
                     <div>Max</div>
                   </div>
                   <TextField
@@ -335,7 +335,7 @@ function Row(props) {
 
                 <div className="ft">
                   <div className="hd">
-                    <div>Staked 0.000</div>
+                    <div>Staked {row.staked}</div>
                     <div>Max</div>
                   </div>
                   <TextField
@@ -540,20 +540,15 @@ class Stake extends Component {
     if (!pool) {
       return null;
     }
-    const useStyles = makeStyles({
-      table: {
-        minWidth: 650,
-      },
-    });
 
-    function createData(name, calories, fat, carbs, protein, type) {
-      return { name, calories, fat, carbs, protein, type };
+    function createData(name, earned, balance, staked, apy) {
+      return { name, earned, balance, staked, apy };
     }
 
     const rows = [
-      createData("USDT", "4.68k", "4.67k", "0.84", "101.32%", "Deposit"),
-      createData("USDC", "123.85k", "123.85k", "1", "100.34%", "Deposit"),
-      createData("ETH", "917.13k", "868.52k", "0.895", "89.5%", "Deposit"),
+      createData("USDT-AD3", "4.68k", "4.67k", "0.84", "101.32%", "Deposit"),
+      createData("USDC-AD3", "123.85k", "123.85k", "1", "100.34%", "Deposit"),
+      createData("ETH-AD3", "917.13k", "868.52k", "0.895", "89.5%", "Deposit"),
     ];
     this.formValue = "";
 
