@@ -240,7 +240,48 @@
       height: 19px;
     }
   }
+
+  .box-mod {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .stake-table-btn {
+      margin-top: 15px;
+      background-color: #fe4121;
+      color: #fff !important;
+
+      .MuiButton-label {
+        color: #fff !important;
+      }
+    }
+
+    > .hd {
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    > .bd,
+    > .ft {
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      > .hd {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
 }
+
 @media (max-width: 760px) {
   #stakeRoot {
     border: none;

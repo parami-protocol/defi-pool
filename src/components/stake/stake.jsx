@@ -4,6 +4,9 @@ import { withStyles } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import IconButton from "@material-ui/core/IconButton";
 import Progress from "../progress/progress";
 import {
   Typography,
@@ -20,6 +23,8 @@ import {
   Paper,
   Modal,
   CircularProgress,
+  Collapse,
+  Box,
 } from "@material-ui/core";
 // import Select from '@material-ui/core/Select';
 // import MenuItem from '@material-ui/core/MenuItem';
@@ -266,6 +271,89 @@ const emitter = Store.emitter;
 const dispatcher = Store.dispatcher;
 const store = Store.store;
 
+const useRowStyles = makeStyles({
+  root: {
+    "& > *": {
+      borderBottom: "unset",
+    },
+  },
+});
+
+function Row(props) {
+  const { row, addLiquidity } = props;
+  const [open, setOpen] = React.useState(false);
+  const classes = useRowStyles();
+
+  return (
+    <React.Fragment>
+      <TableRow className={classes.root}>
+        <TableCell component="th" scope="row">
+          {row.name}
+        </TableCell>
+        <TableCell>{row.calories}</TableCell>
+        <TableCell>{row.fat}</TableCell>
+        <TableCell>{row.carbs}</TableCell>
+        <TableCell>{row.protein}</TableCell>
+        <TableCell align="right">
+          <Button className="stake-table-btn" onClick={addLiquidity}>
+            Add
+          </Button>
+        </TableCell>
+        <TableCell align="right">
+          <IconButton
+            className="stake-table-btn"
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box margin={1}>
+              <div className="box-mod">
+                <div className="hd">
+                  <div>0.000 AD3</div>
+                  <Button className="stake-table-btn">Claim</Button>
+                </div>
+
+                <div className="bd">
+                  <div className="hd">
+                    <div>Balance 0.000</div>
+                    <div>Max</div>
+                  </div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Balance"
+                    variant="outlined"
+                  />
+                  <Button className="stake-table-btn">Approve</Button>
+                </div>
+
+                <div className="ft">
+                  <div className="hd">
+                    <div>Staked 0.000</div>
+                    <div>Max</div>
+                  </div>
+                  <TextField
+                    id="outlined-basic"
+                    label="Staked"
+                    variant="outlined"
+                  />
+                  <Button className="stake-table-btn">Unstake</Button>
+                </div>
+              </div>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+}
+
 class Stake extends Component {
   constructor(props) {
     super();
@@ -281,7 +369,6 @@ class Stake extends Component {
       "governanceContractVersion"
     );
 
-    console.log(props);
     if (!pool) {
       props.history.push("/");
     }
@@ -297,7 +384,7 @@ class Stake extends Component {
       governanceContractVersion: governanceContractVersion,
       //,t: tr.useTranslation()
       showLiquidityModal: false,
-      iframeLoading: true
+      iframeLoading: true,
     };
 
     if (pool && ["FeeRewards", "Governance"].includes(pool.id)) {
@@ -410,8 +497,8 @@ class Stake extends Component {
   };
 
   setLiquidityModalStatus = (status = true) => {
-    this.setState({showLiquidityModal: status})
-  }
+    this.setState({ showLiquidityModal: status });
+  };
 
   render() {
     const { t } = this.props;
@@ -538,156 +625,75 @@ class Stake extends Component {
                 <TableHead>
                   <TableRow>
                     <TableCell>Assets</TableCell>
-                    <TableCell>Total deposit</TableCell>
-                    <TableCell>Total loan</TableCell>
-                    <TableCell>Utillzation rate</TableCell>
+                    <TableCell>Earned</TableCell>
+                    <TableCell>Balance</TableCell>
+                    <TableCell>Staked</TableCell>
                     <TableCell>APY</TableCell>
                     <TableCell>Liquidity</TableCell>
-                    <TableCell align="right">Operate</TableCell>
+                    <TableCell align="right">More</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {rows.map((row) => (
-                    <TableRow key={row.name}>
-                      <TableCell component="th" scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell>{row.calories}</TableCell>
-                      <TableCell>{row.fat}</TableCell>
-                      <TableCell className="table-progress">
-                        <div className="table-progress-content">
-                          <Progress num={row.carbs}></Progress>
-                          <span>{row.carbs * 100}%</span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="table-progress-content table-apy-content">
-                          <span className="table-apy">{row.protein}</span>
-                          <ErrorOutlineIcon />
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Button
-                          className="stake-table-btn"
-                          onClick={() => this.setLiquidityModalStatus(true)}
-                          disabled={loading}
-                        >
-                          Add
-                        </Button>
-                      </TableCell>
-                      <TableCell align="right">
-                        <Button
-                          className="stake-table-btn"
-                          onClick={this.unlockClicked}
-                          disabled={loading}
-                        >
-                          Deposit
-                        </Button>
-                        {/* <Button
-                        className="stake-table-btn"
-                        onClick={this.unlockClicked}
-                        disabled={loading}
-                      >
-                        Withdraw
-                      </Button> */}
-                      </TableCell>
-                    </TableRow>
+                    <Row
+                      key={row.name}
+                      row={row}
+                      addLiquidity={() => this.setLiquidityModalStatus(true)}
+                    />
+                    // <TableRow key={row.name}>
+                    //   <TableCell component="th" scope="row">
+                    //     {row.name}
+                    //   </TableCell>
+                    //   <TableCell>{row.calories}</TableCell>
+                    //   <TableCell>{row.fat}</TableCell>
+                    //   <TableCell className="table-progress">
+                    //     <div className="table-progress-content">
+                    //       <Progress num={row.carbs}></Progress>
+                    //       <span>{row.carbs * 100}%</span>
+                    //     </div>
+                    //   </TableCell>
+                    //   <TableCell>
+                    //     <div className="table-progress-content table-apy-content">
+                    //       <span className="table-apy">{row.protein}</span>
+                    //       <ErrorOutlineIcon />
+                    //     </div>
+                    //   </TableCell>
+                    //   <TableCell align="right">
+                    //     <Button
+                    //       className="stake-table-btn"
+                    //       onClick={() => this.setLiquidityModalStatus(true)}
+                    //       disabled={loading}
+                    //     >
+                    //       Add
+                    //     </Button>
+                    //   </TableCell>
+                    //   <TableCell align="right">
+                    //     <Button
+                    //       className="stake-table-btn"
+                    //       onClick={this.unlockClicked}
+                    //       disabled={loading}
+                    //     >
+                    //       <KeyboardArrowDownIcon />
+                    //     </Button>
+                    //   </TableCell>
+                    // </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
           </section>
-          {/* <Typography variant={'h5'} className={classes.disaclaimer + ' ea_header_tit'}>{t('Stake.RiskWarn')}</Typography>
-                <div className={classes.intro}>
-                    <Card className='addressContainer' onClick={this.overlayClicked}>
-                        <Typography variant={'h3'} className={classes.walletTitle} noWrap>{t('Stake.Wallet')}</Typography>
-                        <Typography variant={'h4'} className={classes.walletAddress} noWrap>{address}</Typography>
-                        <div style={{
-                            background: '#6FED9B',
-                            opacity: '1',
-                            borderRadius: '10px',
-                            width: '10px',
-                            height: '10px',
-                            marginRight: '3px',
-                            marginTop: '3px',
-                            marginLeft: '6px'
-                        }}></div>
-                    </Card>
-                </div>
-                <div className='overview'>
-                    <div className={classes.overviewField}>
-                        <Typography variant={'h3'} className={classes.overviewTitle}>{t('Stake.YourBalance')}</Typography>
-                        <Typography variant={'h2'}
-                                    className={classes.overviewValue}>{pool.tokens[0].balance ? pool.tokens[0].balance.toFixed(2) : "0"}
-                            <i className='symbol_name'>{pool.tokens[0].symbol}</i></Typography>
-                    </div>
-                    <div className={classes.overviewField}>
-                        <Typography variant={'h3'} className={classes.overviewTitle}>{t('Stake.CurrentlyStaked')}</Typography>
-                        <Typography variant={'h2'}
-                                    className={classes.overviewValue}>{pool.tokens[0].stakedBalance ? pool.tokens[0].stakedBalance.toFixed(2) : "0"}</Typography>
-                    </div>
-                    <div className={classes.overviewField}>
-                        <Typography variant={'h3'} className={classes.overviewTitle}>{t('Stake.RewardsAvailable')}</Typography>
-                        <Typography variant={'h2'} className={classes.overviewValue}>
-                            {pool.tokens[0].rewardsAvailable ? pool.tokens[0].rewardsAvailable.toFixed(2) : "0"}<i className='symbol_name'> {pool.tokens[0].rewardsSymbol != '$' ? pool.tokens[0].rewardsSymbol : ''}</i>
-                        </Typography>
-                    </div>
-                    {['GovernanceV2Dai'].includes(pool.id) &&
-                    <div className={classes.overviewField}>
-                        <Typography variant={'h3'} className={classes.overviewTitle}>{t('Stake.APY')}</Typography>
-                        <Typography variant={'h2'} className={classes.overviewValue}>
-                            {daiRoi || t('Stake.Calc')}
-                        </Typography>
-                    </div>
-                    }
-                    {['GovernanceV2Kani'].includes(pool.id) &&
-                    <div className={classes.overviewField}>
-                        <Typography variant={'h3'} className={classes.overviewTitle}>{t('Stake.APY')}</Typography>
-                        <Typography variant={'h2'} className={classes.overviewValue}>
-                            {kaniRoi || t('Stake.Calc')}
-                        </Typography>
-                    </div>
-                    }
-                </div>
-                {['FeeRewards'].includes(pool.id) &&
-                <div className={classes.actions}>
-                    <Typography className={classes.stakeTitle} variant={'h3'}>yCRV reward requirements</Typography>
-                    <div className={classes.requirement}>
-                        <Typography variant={'h4'}>You must have voted in a proposal recently</Typography><Typography
-                        variant={'h4'} className={classes.check}>{voteLockValid ?
-                        <CheckIcon style={{color: colors.green}}/> :
-                        <ClearIcon style={{color: colors.red}}/>}</Typography>
-                    </div>
-                    <div className={classes.requirement}>
-                        <Typography variant={'h4'}>You must have at least 1000 BPT staked in the Governance
-                            pool</Typography><Typography variant={'h4'} className={classes.check}>{balanceValid ?
-                        <CheckIcon style={{color: colors.green}}/> :
-                        <ClearIcon style={{color: colors.red}}/>}</Typography>
-                    </div>
-                </div>
-                }
-                {value === 'options' && this.renderOptions()}
-                {value === 'stake' && this.renderStake()}
-                {value === 'claim' && this.renderClaim()}
-                {value === 'unstake' && this.renderUnstake()}
-                {value === 'exit' && this.renderExit()}
-
-                {snackbarMessage && this.renderSnackbar()}
-                {loading && <Loader/>} */}
         </div>
         <Modal
           open={this.state.showLiquidityModal}
           onClose={() => {
-            this.setLiquidityModalStatus(false)
-            this.setState({iframeLoading: true})
+            this.setLiquidityModalStatus(false);
+            this.setState({ iframeLoading: true });
           }}
-        style={
-        {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-        }
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <div
             style={{
@@ -696,16 +702,18 @@ class Stake extends Component {
               display: "flex",
               justifyContent: "space-around",
               alignItems: "center",
-              position: 'relative'
+              position: "relative",
             }}
           >
-            {this.state.iframeLoading ? <CircularProgress style={{position: 'absolute'}} /> : null}
+            {this.state.iframeLoading ? (
+              <CircularProgress style={{ position: "absolute" }} />
+            ) : null}
             <iframe
-              style={{width: '100%', height: '100%'}}
+              style={{ width: "100%", height: "100%" }}
               frameBorder="0"
               title="uniswap"
               src="https://app.uniswap.org/#/add/ETH"
-              onLoad={() => this.setState({iframeLoading: false})}
+              onLoad={() => this.setState({ iframeLoading: false })}
             ></iframe>
           </div>
         </Modal>

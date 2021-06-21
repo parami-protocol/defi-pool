@@ -214,7 +214,6 @@ function Header(props) {
   const pathName =
     props.location.pathname === "/stake" ||
     props.location.pathname === "/liquidity";
-  console.log(pathName, "pathName");
 
   return (
     <div className={classes.root} id="headerRoot">
