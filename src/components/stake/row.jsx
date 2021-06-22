@@ -1,20 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 import {
-  Typography,
   Button,
-  // Card,
   TextField,
-  InputAdornment,
-  Table,
-  TableBody,
   TableCell,
-  TableContainer,
-  TableHead,
   TableRow,
-  Paper,
-  Modal,
-  CircularProgress,
   Collapse,
   Box,
 } from "@material-ui/core";
@@ -23,9 +13,90 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 
 import useMaster from "../../hooks/useMaster";
+import useAllowance from "../../hooks/useAllowance";
+import useApprove from "../../hooks/useApprove";
+import useStake from "../../hooks/useStake";
+import useUnstake from "../../hooks/useUnstake";
+import useReward from "../../hooks/useReward";
+import useEarned from "../../hooks/useEarned";
 
 const Row = ({ row, addLiquidity }) => {
   const [open, setOpen] = useState(false);
+  const [requestedApproval, setRequestedApproval] = useState(false);
+  const [pendingStake, setPendingStake] = useState(false);
+  const [pendingUnstake, setPendingUnstake] = useState(false);
+  const [pendingClaim, setPendingClaim] = useState(false);
+
+  const allowance = useAllowance(row.lpContract);
+  const earned = useEarned(row.pid);
+
+  const { onApprove } = useApprove(row.lpContract);
+  const { onStake } = useStake(row.pid);
+  const { onUnstake } = useUnstake(row.pid);
+  const { onReward } = useReward(row.pid);
+
+  // TODO
+  // balance
+  // staked
+
+  const handleApprove = useCallback(async () => {
+    try {
+      setRequestedApproval(true);
+
+      const txHash = await onApprove();
+
+      if (!txHash) {
+        setRequestedApproval(false);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [onApprove, setRequestedApproval]);
+
+  const handleStake = useCallback(
+    async (amount) => {
+      try {
+        setPendingStake(true);
+
+        await onStake(amount);
+
+        setPendingStake(false);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    [onStake]
+  );
+
+  const handleUnstake = useCallback(
+    async (amount) => {
+      try {
+        setPendingUnstake(true);
+
+        await onUnstake(amount);
+
+        setPendingUnstake(false);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    [onUnstake]
+  );
+
+  const handleClaim = useCallback(
+    async (amount) => {
+      try {
+        setPendingClaim(true);
+
+        await onReward(amount);
+
+        setPendingClaim(false);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    [onReward]
+  );
 
   return (
     <React.Fragment>
@@ -33,7 +104,7 @@ const Row = ({ row, addLiquidity }) => {
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell>{row.earned}</TableCell>
+        <TableCell>{earned}</TableCell>
         <TableCell>{row.balance}</TableCell>
         <TableCell>{row.staked}</TableCell>
         <TableCell>{row.apy}</TableCell>
@@ -60,7 +131,13 @@ const Row = ({ row, addLiquidity }) => {
               <div className="box-mod">
                 <div className="hd">
                   <div>{row.earned} AD3</div>
-                  <Button className="stake-table-btn">Claim</Button>
+                  <Button
+                    disabled={!row.earned}
+                    className="stake-table-btn"
+                    onClick={handleClaim}
+                  >
+                    {pendingClaim ? "Pending Confirmation" : "Claim"}
+                  </Button>
                 </div>
 
                 <div className="bd">
@@ -73,7 +150,19 @@ const Row = ({ row, addLiquidity }) => {
                     label="Balance"
                     variant="outlined"
                   />
-                  <Button className="stake-table-btn">Approve</Button>
+                  {!allowance.toNumber() ? (
+                    <Button className="stake-table-btn" onClick={handleApprove}>
+                      {requestedApproval ? "Pending Confirmation" : "Approve"}
+                    </Button>
+                  ) : (
+                    <Button
+                      disabled={!row.balance}
+                      className="stake-table-btn"
+                      onClick={handleStake}
+                    >
+                      {pendingStake ? "Pending Confirmation" : "Stake"}
+                    </Button>
+                  )}
                 </div>
 
                 <div className="ft">
@@ -86,7 +175,13 @@ const Row = ({ row, addLiquidity }) => {
                     label="Staked"
                     variant="outlined"
                   />
-                  <Button className="stake-table-btn">Unstake</Button>
+                  <Button
+                    disabled={!row.staked}
+                    className="stake-table-btn"
+                    onClick={handleUnstake}
+                  >
+                    {pendingUnstake ? "Pending Confirmation" : "Unstake"}
+                  </Button>
                 </div>
               </div>
             </Box>

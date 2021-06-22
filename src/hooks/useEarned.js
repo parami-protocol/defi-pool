@@ -1,19 +1,22 @@
 import { useState, useEffect, useCallback } from "react";
-import BigNumber from "bignumber.js";
 
 import useMaster from "./useMaster";
-import Store from "../stores";
+import useAccount from "./useAccount";
 
-const useEarned = () => {
-  const store = Store.store;
-  const account = store.getStore("account");
+import { getEarned, getMasterContract } from "./util";
+
+const useEarned = (pid) => {
+  const account = useAccount();
   const master = useMaster();
+  const masterContract = getMasterContract(master);
 
-  const [earned, setEarned] = useState(new BigNumber(0));
+  const [earned, setEarned] = useState();
 
-  const fetchEarend = useCallback(() => {
-    setEarned(0);
-  }, []);
+  const fetchEarend = useCallback(async () => {
+    const earned = await getEarned(masterContract, pid, account);
+
+    setEarned(earned.toNumber());
+  }, [account, masterContract, pid]);
 
   useEffect(() => {
     if (account && master) {

@@ -4,16 +4,7 @@ import BigNumber from "bignumber.js";
 import useAccount from "./useAccount";
 import useMaster from "./useMaster";
 
-import { getMasterContract } from "./util";
-
-const getAllowance = async (lpContract, user, spender) => {
-  try {
-    const allowance = await lpContract.methods.allowance(user, spender).call();
-    return allowance;
-  } catch (e) {
-    return "0";
-  }
-};
+import { getMasterContract, getAllowance } from "./util";
 
 const useAllowance = (lpContract) => {
   const account = useAccount();
