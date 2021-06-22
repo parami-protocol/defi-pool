@@ -16,7 +16,7 @@ import Stake from "./components/stake";
 import RewardsPools from "./components/rewardPools";
 import Header from "./components/header";
 import Footer from "./components/footer";
-import Liquidity from "./components/liquidity";
+// import Liquidity from "./components/liquidity";
 // import Propose from './components/propose';
 // import Claim from './components/claim';
 // import Vote from './components/vote';

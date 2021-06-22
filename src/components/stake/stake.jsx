@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useCallback, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
@@ -64,6 +64,8 @@ import {
   GETKANIROI,
 } from "../../constants";
 // import FormControl from "../header";
+
+import Rows from "./row";
 
 const styles = (theme) => ({
   root: {
@@ -270,90 +272,6 @@ const styles = (theme) => ({
 const emitter = Store.emitter;
 const dispatcher = Store.dispatcher;
 const store = Store.store;
-
-const useRowStyles = makeStyles({
-  root: {
-    "& > *": {
-      borderBottom: "unset",
-    },
-  },
-});
-
-function Row(props) {
-  const { row, addLiquidity } = props;
-  const [open, setOpen] = React.useState(false);
-  const classes = useRowStyles();
-
-  return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
-        <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell>
-        <TableCell>{row.earned}</TableCell>
-        <TableCell>{row.balance}</TableCell>
-        <TableCell>{row.staked}</TableCell>
-        <TableCell>{row.apy}</TableCell>
-        <TableCell align="right">
-          <Button className="stake-table-btn" onClick={addLiquidity}>
-            Add
-          </Button>
-        </TableCell>
-        <TableCell align="right">
-          <IconButton
-            className="stake-table-btn"
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <div className="box-mod">
-                <div className="hd">
-                  <div>{row.earned} AD3</div>
-                  <Button className="stake-table-btn">Claim</Button>
-                </div>
-
-                <div className="bd">
-                  <div className="hd">
-                    <div>Balance {row.balance}</div>
-                    <div>Max</div>
-                  </div>
-                  <TextField
-                    id="outlined-basic"
-                    label="Balance"
-                    variant="outlined"
-                  />
-                  <Button className="stake-table-btn">Approve</Button>
-                </div>
-
-                <div className="ft">
-                  <div className="hd">
-                    <div>Staked {row.staked}</div>
-                    <div>Max</div>
-                  </div>
-                  <TextField
-                    id="outlined-basic"
-                    label="Staked"
-                    variant="outlined"
-                  />
-                  <Button className="stake-table-btn">Unstake</Button>
-                </div>
-              </div>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
-}
-
 class Stake extends Component {
   constructor(props) {
     super();
@@ -363,6 +281,7 @@ class Stake extends Component {
     // })
 
     const account = store.getStore("account");
+
     // const daiRoi = store.getStore('daiRoi')
     const pool = store.getStore("currentPool");
     const governanceContractVersion = store.getStore(
@@ -541,17 +460,6 @@ class Stake extends Component {
       return null;
     }
 
-    function createData(name, earned, balance, staked, apy) {
-      return { name, earned, balance, staked, apy };
-    }
-
-    const rows = [
-      createData("USDT-AD3", "4.68k", "4.67k", "0.84", "101.32%", "Deposit"),
-      createData("USDC-AD3", "123.85k", "123.85k", "1", "100.34%", "Deposit"),
-      createData("ETH-AD3", "917.13k", "868.52k", "0.895", "89.5%", "Deposit"),
-    ];
-    this.formValue = "";
-
     return (
       <>
         <div className={classes.root} id="stakeRoot">
@@ -629,55 +537,13 @@ class Stake extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
-                    <Row
-                      key={row.name}
-                      row={row}
-                      addLiquidity={() => this.setLiquidityModalStatus(true)}
-                    />
-                    // <TableRow key={row.name}>
-                    //   <TableCell component="th" scope="row">
-                    //     {row.name}
-                    //   </TableCell>
-                    //   <TableCell>{row.calories}</TableCell>
-                    //   <TableCell>{row.fat}</TableCell>
-                    //   <TableCell className="table-progress">
-                    //     <div className="table-progress-content">
-                    //       <Progress num={row.carbs}></Progress>
-                    //       <span>{row.carbs * 100}%</span>
-                    //     </div>
-                    //   </TableCell>
-                    //   <TableCell>
-                    //     <div className="table-progress-content table-apy-content">
-                    //       <span className="table-apy">{row.protein}</span>
-                    //       <ErrorOutlineIcon />
-                    //     </div>
-                    //   </TableCell>
-                    //   <TableCell align="right">
-                    //     <Button
-                    //       className="stake-table-btn"
-                    //       onClick={() => this.setLiquidityModalStatus(true)}
-                    //       disabled={loading}
-                    //     >
-                    //       Add
-                    //     </Button>
-                    //   </TableCell>
-                    //   <TableCell align="right">
-                    //     <Button
-                    //       className="stake-table-btn"
-                    //       onClick={this.unlockClicked}
-                    //       disabled={loading}
-                    //     >
-                    //       <KeyboardArrowDownIcon />
-                    //     </Button>
-                    //   </TableCell>
-                    // </TableRow>
-                  ))}
+                  <Rows />
                 </TableBody>
               </Table>
             </TableContainer>
           </section>
         </div>
+
         <Modal
           open={this.state.showLiquidityModal}
           onClose={() => {

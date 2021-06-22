@@ -4,8 +4,10 @@ import { contractAddresses, pairs } from "./constants";
 import ERC20Abi from "./abi/ERC20.json";
 import UNIV2PairAbi from "./abi/UniswapV2Pair.json";
 import WETHAbi from "./abi/WETH.json";
+import MasterAbi from "./abi/Ad3StakeManager.json";
+import ERC721Abi from "./abi/ERC721-ABI.json";
 
-export class Contracts {
+export default class Contracts {
   constructor(provider, networkId, web3, options) {
     this.web3 = web3;
     this.defaultConfirmations = options.defaultConfirmations;
@@ -15,14 +17,14 @@ export class Contracts {
     this.defaultGasPrice = options.defaultGasPrice;
 
     this.weth = new this.web3.eth.Contract(WETHAbi);
-    this.wbtc = new this.web3.eth.Contract(ERC20Abi);
+    this.master = new this.web3.eth.Contract(MasterAbi);
 
     this.pools = pairs.map((pool) =>
       Object.assign(pool, {
         lpAddress: pool.lpAddresses[networkId],
         tokenAddress: pool.tokenAddresses[networkId],
-        lpContract: new this.web3.eth.Contract(UNIV2PairAbi),
-        tokenContract: new this.web3.eth.Contract(ERC20Abi),
+        lpContract: new this.web3.eth.Contract(ERC721Abi),
+        tokenContract: new this.web3.eth.Contract(ERC721Abi),
       })
     );
 
@@ -31,7 +33,7 @@ export class Contracts {
   }
 
   setProvider(provider, networkId) {
-    const setProvider = (contract, address, log) => {
+    const setProvider = (contract, address) => {
       contract.setProvider(provider);
 
       if (address) {
@@ -42,7 +44,7 @@ export class Contracts {
     };
 
     setProvider(this.weth, contractAddresses.weth[networkId]);
-    setProvider(this.wbtc, contractAddresses.wbtc[networkId]);
+    setProvider(this.master, contractAddresses.master[networkId]);
 
     this.pools.forEach(
       ({ lpContract, lpAddress, tokenContract, tokenAddress }) => {
@@ -51,4 +53,6 @@ export class Contracts {
       }
     );
   }
+
+  setDefaultAccount(account) {}
 }

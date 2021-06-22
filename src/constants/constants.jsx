@@ -80,15 +80,19 @@ export const contractAddresses = {
   },
   weth: {
     1: "",
-    4: "",
+    4: "0xdf032bc4b9dc2782bb09352007d4c57b75160b15",
   },
   usdt: {
     1: "",
-    4: "",
+    4: "0xfb1d709cb959ac0ea14cad0927eabc7832e65058",
   },
   usdc: {
     1: "",
-    4: "",
+    4: "0x7ba433d48c43e3ceeb2300bfbf21db58eecdcd1a",
+  },
+  master: {
+    1: "",
+    4: "0xBe754C2AeB20b35Ea1705FE53dde9A2F4313cB3B",
   },
 };
 
@@ -103,7 +107,7 @@ export const pairs = [
       1: "",
       4: "",
     },
-    name: "WETH AD3",
+    name: "WETH-AD3",
     symbol: "WETH-AD3 LP",
     tokenSymbol: "AD3",
     icon: "💰",
@@ -118,7 +122,7 @@ export const pairs = [
       1: "",
       4: "",
     },
-    name: "USDT AD3",
+    name: "USDT-AD3",
     symbol: "USDT-AD3 LP",
     tokenSymbol: "AD3",
     icon: "💰",
@@ -133,7 +137,7 @@ export const pairs = [
       1: "",
       4: "",
     },
-    name: "USDC AD3",
+    name: "USDC-AD3",
     symbol: "USDC-AD3 LP",
     tokenSymbol: "AD3",
     icon: "💰",
