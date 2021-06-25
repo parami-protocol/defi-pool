@@ -15,18 +15,22 @@ export const getWethContract = (master) => {
 };
 
 export const approve = async (lpContract, masterContract, account) => {
+  console.log(lpContract);
   return lpContract.methods
-    .approve(masterContract.options.address, ethers.constants.MaxUint256)
+    .setApprovalForAll(masterContract.options.address, true)
     .send({ from: account });
 };
 
 export const getAllowance = async (lpContract, user, spender) => {
   try {
-    const allowance = await lpContract.methods.allowance(user, spender).call();
+    const allowance = await lpContract.methods
+      .isApprovedForAll(user, spender)
+      .call();
 
     return allowance;
   } catch (e) {
-    return "0";
+    console.log(e);
+    return false;
   }
 };
 

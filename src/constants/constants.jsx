@@ -76,7 +76,7 @@ export const GETUNIKANIROI = "GETUNIKANIROI";
 export const contractAddresses = {
   ad3: {
     1: "",
-    4: "",
+    4: "0xaa54f12feecf6653b82a297b77a1b577d4a13666",
   },
   weth: {
     1: "",
@@ -84,11 +84,11 @@ export const contractAddresses = {
   },
   usdt: {
     1: "",
-    4: "0xfb1d709cb959ac0ea14cad0927eabc7832e65058",
+    4: "0xd92e713d051c37ebb2561803a3b5fbabc4962431",
   },
   usdc: {
     1: "",
-    4: "0x7ba433d48c43e3ceeb2300bfbf21db58eecdcd1a",
+    4: "0x4dbcdf9b62e891a7cec5a2568c3f4faf9e8abe2b",
   },
   master: {
     1: "",
@@ -101,45 +101,45 @@ export const pairs = [
     pid: 0,
     lpAddresses: {
       1: "",
-      4: "",
+      4: "0xc36442b4a4522e871399cd717abdd847ab11fe88",
     },
     tokenAddresses: {
       1: "",
-      4: "",
+      4: "0xaa54f12feecf6653b82a297b77a1b577d4a13666",
     },
     name: "WETH-AD3",
     symbol: "WETH-AD3 LP",
     tokenSymbol: "AD3",
     icon: "💰",
   },
-  {
-    pid: 1,
-    lpAddresses: {
-      1: "",
-      4: "",
-    },
-    tokenAddresses: {
-      1: "",
-      4: "",
-    },
-    name: "USDT-AD3",
-    symbol: "USDT-AD3 LP",
-    tokenSymbol: "AD3",
-    icon: "💰",
-  },
-  {
-    pid: 2,
-    lpAddresses: {
-      1: "",
-      4: "",
-    },
-    tokenAddresses: {
-      1: "",
-      4: "",
-    },
-    name: "USDC-AD3",
-    symbol: "USDC-AD3 LP",
-    tokenSymbol: "AD3",
-    icon: "💰",
-  },
+  // {
+  //   pid: 1,
+  //   lpAddresses: {
+  //     1: "",
+  //     4: "",
+  //   },
+  //   tokenAddresses: {
+  //     1: "",
+  //     4: "",
+  //   },
+  //   name: "USDT-AD3",
+  //   symbol: "USDT-AD3 LP",
+  //   tokenSymbol: "AD3",
+  //   icon: "💰",
+  // },
+  // {
+  //   pid: 2,
+  //   lpAddresses: {
+  //     1: "",
+  //     4: "",
+  //   },
+  //   tokenAddresses: {
+  //     1: "",
+  //     4: "",
+  //   },
+  //   name: "USDC-AD3",
+  //   symbol: "USDC-AD3 LP",
+  //   tokenSymbol: "AD3",
+  //   icon: "💰",
+  // },
 ];

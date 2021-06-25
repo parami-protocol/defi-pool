@@ -12,10 +12,11 @@ const useApprove = (lpContract) => {
 
   const handleApprove = useCallback(async () => {
     try {
-      const tx = await approve(lpContract, masterContract, account);
+      await approve(lpContract, masterContract, account.address);
 
-      return tx;
+      return true;
     } catch (e) {
+      console.error(e);
       return false;
     }
   }, [account, lpContract, masterContract]);

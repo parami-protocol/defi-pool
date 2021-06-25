@@ -28,7 +28,8 @@ const Row = ({ row, addLiquidity }) => {
   const [pendingClaim, setPendingClaim] = useState(false);
 
   const allowance = useAllowance(row.lpContract);
-  const earned = useEarned(row.pid);
+  // const earned = useEarned(row.pid);
+  const earned = 0;
 
   const { onApprove } = useApprove(row.lpContract);
   const { onStake } = useStake(row.pid);
@@ -37,7 +38,11 @@ const Row = ({ row, addLiquidity }) => {
 
   // TODO
   // balance
+  const balance = 0;
   // staked
+  const staked = 0;
+  // apy
+  const apy = 0;
 
   const handleApprove = useCallback(async () => {
     try {
@@ -45,13 +50,14 @@ const Row = ({ row, addLiquidity }) => {
 
       const txHash = await onApprove();
 
+      console.log(txHash);
       if (!txHash) {
         setRequestedApproval(false);
       }
     } catch (e) {
       console.log(e);
     }
-  }, [onApprove, setRequestedApproval]);
+  }, [onApprove]);
 
   const handleStake = useCallback(
     async (amount) => {
@@ -105,15 +111,15 @@ const Row = ({ row, addLiquidity }) => {
           {row.name}
         </TableCell>
         <TableCell>{earned}</TableCell>
-        <TableCell>{row.balance}</TableCell>
-        <TableCell>{row.staked}</TableCell>
-        <TableCell>{row.apy}</TableCell>
+        <TableCell>{balance}</TableCell>
+        <TableCell>{staked}</TableCell>
+        <TableCell>{apy}</TableCell>
         <TableCell>
           <Button className="stake-table-btn" onClick={addLiquidity}>
             Add
           </Button>
         </TableCell>
-        <TableCell>
+        <TableCell align="right">
           <IconButton
             className="stake-table-btn"
             aria-label="expand row"
@@ -130,9 +136,9 @@ const Row = ({ row, addLiquidity }) => {
             <Box margin={1}>
               <div className="box-mod">
                 <div className="hd">
-                  <div>{row.earned} AD3</div>
+                  <div>{earned} AD3</div>
                   <Button
-                    disabled={!row.earned}
+                    disabled={!earned}
                     className="stake-table-btn"
                     onClick={handleClaim}
                   >
@@ -142,7 +148,7 @@ const Row = ({ row, addLiquidity }) => {
 
                 <div className="bd">
                   <div className="hd">
-                    <div>Balance {row.balance}</div>
+                    <div>Balance {balance}</div>
                     <div>Max</div>
                   </div>
                   <TextField
@@ -150,13 +156,13 @@ const Row = ({ row, addLiquidity }) => {
                     label="Balance"
                     variant="outlined"
                   />
-                  {!allowance.toNumber() ? (
+                  {!allowance ? (
                     <Button className="stake-table-btn" onClick={handleApprove}>
                       {requestedApproval ? "Pending Confirmation" : "Approve"}
                     </Button>
                   ) : (
                     <Button
-                      disabled={!row.balance}
+                      disabled={!balance}
                       className="stake-table-btn"
                       onClick={handleStake}
                     >
@@ -167,7 +173,7 @@ const Row = ({ row, addLiquidity }) => {
 
                 <div className="ft">
                   <div className="hd">
-                    <div>Staked {row.staked}</div>
+                    <div>Staked {staked}</div>
                     <div>Max</div>
                   </div>
                   <TextField
@@ -176,7 +182,7 @@ const Row = ({ row, addLiquidity }) => {
                     variant="outlined"
                   />
                   <Button
-                    disabled={!row.staked}
+                    disabled={!staked}
                     className="stake-table-btn"
                     onClick={handleUnstake}
                   >

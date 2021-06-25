@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import BigNumber from "bignumber.js";
 
 import useAccount from "./useAccount";
 import useMaster from "./useMaster";
@@ -10,17 +9,17 @@ const useAllowance = (lpContract) => {
   const account = useAccount();
   const master = useMaster();
 
-  const [allowance, setAllowance] = useState(new BigNumber(0));
+  const [allowance, setAllowance] = useState(false);
 
   const masterContract = getMasterContract(master);
 
   const fetchAllowance = useCallback(async () => {
     const allowance = await getAllowance(
       lpContract,
-      account,
+      account.address,
       masterContract.options.address
     );
-    setAllowance(new BigNumber(allowance));
+    setAllowance(allowance);
   }, [account, masterContract, lpContract]);
 
   useEffect(() => {
